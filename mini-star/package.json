@@ -1,0 +1,14 @@
+{
+  "name": "mini-star",
+  "version": "1.0.0",
+  "description": "A framework which can help your project pluginize",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "keywords": ["plugin", "microkernel"],
+  "author": "moonrailgun",
+  "license": "MIT"
+}

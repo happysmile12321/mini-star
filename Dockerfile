@@ -3,23 +3,27 @@
 # Single container with Nginx for static hosting
 # ============================================================
 
-# Stage 1: Build the playground app
+# Stage 1: Build the mini-star package and playground app
 FROM node:20-bullseye AS builder
 
 WORKDIR /app
 
-# Copy the entire mini-star project
-COPY . ./
-
-# (可选) 安装必要环境 等操作 
+# Install git and other dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends git && \
-    npm install -g pnpm@7 && pnpm install --force --ignore-scripts && \
     rm -rf /var/lib/apt/lists/*
 
+# Install pnpm
+RUN npm install -g pnpm@7
 
-# Build mini-star package first using pnpm exec
-WORKDIR /app
-RUN pnpm exec rimraf ./lib/**/*.d.ts && pnpm exec tsc -p ./tsconfig.build.json
+# Copy the entire project
+COPY . ./
+
+# Install all dependencies
+RUN pnpm install --force --ignore-scripts
+
+# Build mini-star package first
+WORKDIR /app/mini-star
+RUN pnpm exec tsc -p tsconfig.build.json
 
 # Build playground
 WORKDIR /app/playground
