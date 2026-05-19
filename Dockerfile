@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends  nginx && \
     rm -rf /var/lib/apt/lists/*
 
 # Install pnpm
-RUN npm install -g pnpm@7
+RUN npm i nrm && nrm use taobao && npm install -g pnpm@7
 
 # Copy the entire project (original repository state)
 COPY . ./
