@@ -10,11 +10,17 @@ FROM node:20-bullseye
 WORKDIR /app
 
 # Install git, nginx and other dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends  nginx && \
+RUN apt-get update && apt-get install -y --no-install-recommends git nginx && \
     rm -rf /var/lib/apt/lists/*
 
+# Configure npm to use Taobao registry for faster downloads
+RUN npm config set registry https://registry.npmmirror.com/
+
 # Install pnpm
-RUN npm i nrm && nrm use taobao && npm install -g pnpm@7
+RUN npm install -g pnpm@7
+
+# Configure pnpm to use Taobao registry
+RUN pnpm config set registry https://registry.npmmirror.com/
 
 # Copy the entire project (original repository state)
 COPY . ./
@@ -30,9 +36,7 @@ WORKDIR /app/playground
 RUN pnpm run build
 
 # Copy built files to nginx html directory
-RUN cp -r /app/playground/dist/* /usr/share/nginx/html/  && apt-get update && apt-get install -y --no-install-recommends  git && \
-    rm -rf /var/lib/apt/lists/*
-
+RUN cp -r /app/playground/dist/* /usr/share/nginx/html/ && apt-get update && apt-get install -y --no-install-recommends git 
 
 # Copy nginx config
 COPY nginx.conf /etc/nginx/nginx.conf
