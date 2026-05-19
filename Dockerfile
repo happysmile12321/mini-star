@@ -3,23 +3,21 @@
 # Single container with Nginx for static hosting
 # ============================================================
 
-# Stage 1: Build the playground app using existing bun image
-FROM oven/bun:1 AS builder
+# Stage 1: Build the playground app
+FROM node:20-bullseye AS builder
 
 WORKDIR /app
 
-# Install npm and pnpm
-RUN apt-get update && apt-get install -y --no-install-recommends npm && \
-    npm install -g pnpm@7 && \
+# Copy the entire mini-star project
+COPY . ./
+
+# (可选) 安装必要环境 等操作 
+RUN apt-get update && apt-get install -y --no-install-recommends git && \
+    npm install -g pnpm@7 && pnpm install --force --ignore-scripts && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy source files
-COPY . .
 
-# Install dependencies using pnpm
-RUN pnpm install --force --ignore-scripts
-
-# Build mini-star package first
+# Build mini-star package first using pnpm exec
 WORKDIR /app
 RUN pnpm exec rimraf ./lib/**/*.d.ts && pnpm exec tsc -p ./tsconfig.build.json
 
@@ -33,8 +31,8 @@ FROM nginx:alpine AS runner
 # Copy built files
 COPY --from=builder /app/playground/dist /usr/share/nginx/html
 
-# Copy nginx config
-COPY nginx.conf /etc/nginx/nginx.conf
+# Copy nginx config from builder
+COPY --from=builder /app/nginx.conf /etc/nginx/nginx.conf
 
 # Expose port
 EXPOSE 80
