@@ -20,7 +20,7 @@ COPY . .
 RUN pnpm install --force --ignore-scripts
 
 # Build mini-star package first
-WORKDIR /app/mini-star
+WORKDIR /app
 RUN pnpm exec rimraf ./lib/**/*.d.ts && pnpm exec tsc -p ./tsconfig.build.json
 
 # Build playground
