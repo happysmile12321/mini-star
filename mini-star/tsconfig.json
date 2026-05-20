@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "noImplicitAny": true,
+    "declaration": true,
+    "target": "ES5",
+    "outDir": "lib",
+    "allowJs": false,
+    "strict": true,
+    "moduleResolution": "node",
+    "rootDir": ".",
+    "typeRoots": ["./types", "./node_modules/@types"]
+  },
+  "exclude": ["node_modules", "lib", "**/__tests__/**"]
+}

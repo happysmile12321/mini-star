@@ -1,0 +1,62 @@
+{
+  "name": "mini-star",
+  "version": "2.1.8",
+  "description": "",
+  "main": "./lib/runtime/index.js",
+  "scripts": {
+    "dev": "tsc -p ./tsconfig.build.json --watch",
+    "build": "rimraf ./lib/**/*.d.ts && tsc -p ./tsconfig.build.json",
+    "build:browser": "rollup --config rollup.browser.ts --configPlugin typescript",
+    "crlf": "npx crlf --set=LF ./lib/**/*.js",
+    "prepare": "pnpm build && pnpm crlf",
+    "release": "npm publish --registry https://registry.npmjs.com/",
+    "test": "jest"
+  },
+  "bin": {
+    "ministar": "./lib/cli/index.js",
+    "mini-star": "./lib/cli/index.js"
+  },
+  "files": [
+    "lib/"
+  ],
+  "keywords": [
+    "micro-service",
+    "frontend",
+    "plugin",
+    "plugins"
+  ],
+  "author": "moonrailgun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moonrailgun/mini-star/issues"
+  },
+  "homepage": "https://github.com/moonrailgun/mini-star#readme",
+  "devDependencies": {
+    "@rollup/browser": "^3.2.5",
+    "@rollup/plugin-typescript": "^9.0.2",
+    "@types/fs-extra": "^9.0.11",
+    "@types/inquirer": "^8.2.1",
+    "@types/jest": "^26.0.22",
+    "@types/yargs": "^16.0.1",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.4",
+    "tslib": "^2.4.1",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "@rollup/plugin-url": "^6.0.0",
+    "cosmiconfig": "^7.0.0",
+    "esbuild": "^0.12.9",
+    "fs-extra": "^9.1.0",
+    "inquirer": "^8.2.2",
+    "ora": "^5.4.0",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.48.0",
+    "rollup-plugin-esbuild": "^4.5.0",
+    "rollup-plugin-styles": "^3.14.1",
+    "yargs": "^16.2.0"
+  }
+}
